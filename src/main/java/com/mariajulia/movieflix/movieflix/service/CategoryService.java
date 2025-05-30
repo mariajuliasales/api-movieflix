@@ -32,4 +32,11 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    public Optional<Category> update(Long id, Category category) {
+        return categoryRepository.findById(id)
+                .map(existingCategory -> {
+                    existingCategory.setName(category.getName());
+                    return categoryRepository.save(existingCategory);
+                });
+    }
 }
