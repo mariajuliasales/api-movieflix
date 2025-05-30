@@ -21,16 +21,23 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponse> save(@RequestBody CategoryRequest categoryRequest){
+    public ResponseEntity<CategoryResponse> save(@RequestBody CategoryRequest categoryRequest) {
         CategoryResponse newCategory = CategoryMapper.toCategoryResponse(categoryService.save(CategoryMapper.toCategory(categoryRequest)));
         return ResponseEntity.status(HttpStatus.CREATED).body(newCategory);
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> findAll(){
+    public ResponseEntity<List<CategoryResponse>> findAll() {
         List<CategoryResponse> categoryResponse = categoryService.findAll().stream()
                 .map(CategoryMapper::toCategoryResponse)
                 .toList();
         return ResponseEntity.status(HttpStatus.OK).body(categoryResponse);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponse> findById(@PathVariable Long id) {
+        return categoryService.findById(id)
+                .map(category -> ResponseEntity.ok(CategoryMapper.toCategoryResponse(category)))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
