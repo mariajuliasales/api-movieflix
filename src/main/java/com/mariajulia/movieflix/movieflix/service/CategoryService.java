@@ -2,8 +2,9 @@ package com.mariajulia.movieflix.movieflix.service;
 
 import com.mariajulia.movieflix.movieflix.entity.Category;
 import com.mariajulia.movieflix.movieflix.repository.CategoryRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -16,5 +17,9 @@ public class CategoryService {
 
     public Category save(Category category) {
         return categoryRepository.save(category);
+    }
+
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 }
