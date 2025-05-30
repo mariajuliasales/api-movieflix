@@ -5,6 +5,7 @@ import com.mariajulia.movieflix.movieflix.mapper.StreamingMapper;
 import com.mariajulia.movieflix.movieflix.service.StreamingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +27,12 @@ public class StreamingController {
                 .stream()
                 .map(streaming -> StreamingMapper.toStreamingResponse(streaming))
                 .toList());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StreamingResponse> findById(@PathVariable Long id) {
+       return streamingService.findById(id)
+                .map(streaming -> ResponseEntity.ok(StreamingMapper.toStreamingResponse(streaming)))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
